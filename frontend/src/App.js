@@ -1,6 +1,7 @@
 import React, { Component, lazy, Suspense } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import ErrorBoundary from './hoc/ErrorBoundary/ErrorBoundary';
 import AuthPage from './containers/Auth/Auth';
 import './App.scss';
 
@@ -26,9 +27,11 @@ class App extends Component {
     } 
     return (
       <div className="App">
-        <Suspense fallback={<div>Loading...</div>}>
-          {routes}
-        </Suspense>
+        <ErrorBoundary>
+          <Suspense fallback={<div>Loading...</div>}>
+            {routes}
+          </Suspense>
+        </ErrorBoundary>
       </div>
     );
   }
