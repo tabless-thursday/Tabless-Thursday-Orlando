@@ -1,7 +1,7 @@
 const initialState = {
     user: {
         _id: null,
-        token: "dsdds",
+        token: null,
         email: null,
         cellnumber: null,
     },

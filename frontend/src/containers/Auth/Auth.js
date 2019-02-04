@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
-
-import './Auth.scss';
+import AuthForm from '../../components/Auth/AuthForm';
 
 
 class Auth extends Component {
@@ -9,7 +8,9 @@ class Auth extends Component {
 
     render() {
         return (
-            <div>Auth Page</div>
+            <div>
+                <AuthForm/>
+            </div>
         )
     }
 }

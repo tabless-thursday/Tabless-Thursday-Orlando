@@ -1,0 +1,38 @@
+@import '../../../styles/variables.scss';
+.Loader {
+    font-size: 10px;
+    text-indent: -9999em;
+    width: 11em;
+    height: 11em;
+    border-radius: 50%;
+    background: $spinner-color;
+    background: linear-gradient(to right, $spinner-color 10%, rgba(255, 255, 255, 0) 42%);
+    position: relative;
+    animation: load3 1.4s infinite linear;
+    transform: translateZ(0);
+    &:after, &:before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        content: '';
+    }
+    &r:before {
+        width: 50%;
+        height: 50%;
+        background: $spinner-color;
+        border-radius: 100% 0 0 0;
+      }
+      &:after {
+        background: $background;
+        width: 75%;
+        height: 75%;
+        border-radius: 50%;
+        margin: auto;
+        bottom: 0;
+        right: 0;
+      }
+  }
+  @keyframes load3 {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }

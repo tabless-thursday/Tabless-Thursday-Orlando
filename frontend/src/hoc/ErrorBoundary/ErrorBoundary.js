@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class ErrorBoundary extends Component {
     state = {
@@ -21,6 +22,7 @@ class ErrorBoundary extends Component {
                     <br />
                     {this.state.errorInfo.componentStack}
                 </details>
+                <span>Click <Link to="/">me</Link> to get out of here!</span>
             </div>
             )
         }

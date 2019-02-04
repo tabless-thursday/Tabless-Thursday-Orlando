@@ -3,9 +3,10 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import ErrorBoundary from './hoc/ErrorBoundary/ErrorBoundary';
 import AuthPage from './containers/Auth/Auth';
+import Layout from './hoc/Layout/Layout';
 import './App.scss';
 
-const asyncMyTabsPage = lazy(() => import('./containers/MyTabs/MyTabs'))
+const asyncMyTabsPage = lazy(() => import('./containers/MyTabs/MyTabs'));
 
 
 class App extends Component {
@@ -26,6 +27,7 @@ class App extends Component {
       )
     } 
     return (
+      <Layout>
       <div className="App">
         <ErrorBoundary>
           <Suspense fallback={<div>Loading...</div>}>
@@ -33,6 +35,7 @@ class App extends Component {
           </Suspense>
         </ErrorBoundary>
       </div>
+      </Layout>
     );
   }
 }
