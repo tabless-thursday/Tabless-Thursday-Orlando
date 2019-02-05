@@ -16,12 +16,16 @@ const inputHolder = (props) => {
     }
   return (
     <div className="InputsHolder">
-          <div className="URLInputHolder">
-              <input className={urlInputClass} {...props.controls.url.elementFrame} onChange={(e) => props.inputChange(e, "url")} />
-              <span>URL</span>
-          </div>
-          <TextArea elementFrame={props.controls.importance.elementFrame} changed={(e) => props.inputChange(e, "importance")} />
-          <input className={categoryInputClass} {...props.controls.category.elementFrame} onChange={(e) => props.inputChange(e, "category")} />
+        <div className="URLInputHolder">
+            <span>URL</span>
+            <input className={urlInputClass} {...props.controls.url.elementFrame} onChange={(e) => props.inputChange(e, "url")} />
+        </div>
+        <TextArea 
+            numChar={props.controls.importance.elementFrame.value.length} 
+            elementFrame={props.controls.importance.elementFrame} 
+            changed={(e) => props.inputChange(e, "importance")} 
+        />
+        <input className={categoryInputClass} {...props.controls.category.elementFrame} onChange={(e) => props.inputChange(e, "category")} />
       </div>
   )
 }

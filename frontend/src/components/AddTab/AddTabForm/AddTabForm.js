@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { checkValidity } from '../../../shared/checkValidity';
 import InputHolder from './InputHolder/InputHolder';
+import PrimaryButton from '../../UI/Buttons/PrimaryButton/PrimaryButton';
 
 import './AddTabForm.scss';
 
@@ -14,15 +15,15 @@ class AddTabForm extends Component {
                 touched: false
             },
             importance: {
-                elementFrame: { col:"30", rows:"10", placeholder: 'Why is this tab important to you?', value: '', maxLength: 10 },
-                validation: { required: true, minLength: 4, maxLength: 10 },
-                valid: false,
+                elementFrame: { col:"30", rows:"7", placeholder: 'Why is this tab important to you?', value: '', maxLength: 240 },
+                validation: { required: false, maxLength: 240 },
+                valid: true,
                 touched: false
             },
             category: {
                 elementFrame: { type: 'text', value: '', placeholder: "Give us a tag/category" },
-                validation: { required: true, minLength: 2 },
-                valid: false,
+                validation: { required: false },
+                valid: true,
                 touched: false
             }
         }
@@ -43,13 +44,21 @@ class AddTabForm extends Component {
     }
 
     render() {
+        let canSubmit = true;
+        for (let control in this.state.controls) {
+            if (canSubmit && this.state.controls[control].valid === false) {
+                canSubmit = false;
+            }
+        }
         return (
           <form className="AddTabForm">
-            <div>
+            <div className="AddTabForm__Header">
               <h2>We'll need some information about your new Tab</h2>
             </div>
             <InputHolder controls={this.state.controls} inputChange={this.inputChangedHandler}/>
-            <button type="button">We'll take care of the rest!</button>
+            <div className="AddTabForm__SubmitButton">
+                <PrimaryButton disabled={!canSubmit}>{canSubmit && "We\'\ll take care of the rest!"}</PrimaryButton>
+            </div>
           </form>
         )
     }

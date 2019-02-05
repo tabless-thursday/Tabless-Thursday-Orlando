@@ -4,7 +4,7 @@ import { authTypes } from '../actions/actionTypes';
 const initialState = {
     user: {
         _id: null,
-        token: "sdsd",
+        token: "sdsds",
         email: null,
         cellnumber: null,
     },
