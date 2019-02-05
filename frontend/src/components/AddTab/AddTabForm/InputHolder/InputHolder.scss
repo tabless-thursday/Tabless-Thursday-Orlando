@@ -1,0 +1,6 @@
+.AddTabForm .InputsHolder {
+    .AddTab__urlInput.Invalid, .AddTab__categoryInput.Invalid {
+        border: 1px solid red;
+            background-color: #FFD0D0;
+    }
+}

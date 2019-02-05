@@ -4,12 +4,14 @@ import { checkValidity } from '../../shared/checkValidity';
 import bookMarkSVG from '../../assests/images/bookmarks.svg';
 import checkingSVG from '../../assests/images/checking_boxes.svg';
 import AuthForm from '../../components/Auth/AuthForm';
+import actions from '../../store/actions/'
+import Spinner from '../../components/UI/Spinner/Spinner';
 
 import './Auth.scss';
 
 class Auth extends Component {
     state = {
-        isSignUp: false,
+        isSignUp: true,
         controls: {
             username: {
                 showOnSignUpOnly: false,
@@ -54,6 +56,7 @@ class Auth extends Component {
             formData.email = this.state.controls.email.elementFrame.value;
             formData.phone = this.state.controls.phone.elementFrame.value;
         }
+        this.props.onAuth(formData, this.state.isSignUp)
     }
     inputChangedHandler = (e, elementName) => {
         e.persist()
@@ -78,18 +81,24 @@ class Auth extends Component {
             });
         } 
         formElementsArray = this.state.isSignUp ? formElementsArray : formElementsArray.filter(formElement => formElement.frame.showOnSignUpOnly === false)
+        let authForm = (
+            <AuthForm 
+                controls={formElementsArray} 
+                isSignUp={this.state.isSignUp} 
+                switchToSignUp={this.switchMethodHandler} 
+                submitForm={this.submitFormHandler}
+                inputChanged={this.inputChangedHandler}
+            />
+        )
+        if (this.props.authenticating) {
+            authForm = <Spinner />
+        }
         return (
             <div className="AuthPageContainer">
                 <div className="BookmarkSVGContainer">
                     <img src={bookMarkSVG} alt="bookmarks" />
                 </div>
-                <AuthForm 
-                    controls={formElementsArray} 
-                    isSignUp={this.state.isSignUp} 
-                    switchToSignUp={this.switchMethodHandler} 
-                    submitForm={this.submitFormHandler}
-                    inputChanged={this.inputChangedHandler}
-                />
+                {authForm}
                 <div className="CheckingSVGContainer">
                     <img src={checkingSVG} alt="bookmarks" />
                 </div>
@@ -98,9 +107,15 @@ class Auth extends Component {
     }
 }
 
+const mapStateToProps = state => {
+    return {
+        authenticating: state.auth.loading
+    }
+}
+
 const mapDispatchToProps = dispatch => {
     return {
-
+        onAuth: (AuthData, isSignUp) => dispatch(actions.auth.authStart(AuthData, isSignUp))
     }
 }
 

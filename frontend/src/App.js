@@ -5,17 +5,18 @@ import ErrorBoundary from './hoc/ErrorBoundary/ErrorBoundary';
 import AuthPage from './containers/Auth/Auth';
 import Layout from './hoc/Layout/Layout';
 import './App.scss';
+import MyTabsPage from './containers/MyTabs/MyTabs'
 
 import actions from './store/actions';
-
-const asyncMyTabsPage = lazy(() => import('./containers/MyTabs/MyTabs'));
+import asyncAddTab from './containers/AddTab/AddTab';
+// const asyncAddTab = lazy(() => import('./containers/AddTab/AddTab'));
 
 
 class App extends Component {
 
-  componentDidMount() {
-    this.props.checkAuth()
-  }
+  // componentDidMount() {
+  //   this.props.checkAuth()
+  // }
 
   render() {
     let routes = (
@@ -28,7 +29,8 @@ class App extends Component {
       routes = (
         <Switch>
           <Redirect from="/" exact to="/my-tabs" /> 
-          <Route path="/my-tabs" component={asyncMyTabsPage} />
+          <Route path="/my-tabs" component={MyTabsPage} />
+          <Route path="/add-tab" component={asyncAddTab} />
           <Redirect to="/my-tabs" />
         </Switch>
       )

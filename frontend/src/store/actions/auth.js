@@ -18,24 +18,19 @@ const authFail = () => {
         type: authTypes.AUTH_FAIL
     }
 }
-export const authStart = (email, password, phone, isSignup) => dispatch => {
+export const authStart = (authData, isSignup) => dispatch => {
     dispatch(authStarting())
-    const authData = { // maybe move to /containers/auth.js
-        email: email,
-        password: password,
-        phone: phone,
-    };
-    let url = isSignup ? 'api/signup' : 'api/login';
-    axios.post(`/${url}`, authData).then(res => {
-        const expirationDate = new Date(new Date().getTime() + res.data.expiresIn * 1000)
-        localStorage.setItem('token', res.data.token)
-        localStorage.setItem('expirationDate', expirationDate)
-        localStorage.setItem('userId', res.data._id)        
-        dispatch(authSuccess(res.data))
-    }).catch(err => {
-        console.log(err)
-        dispatch(authFail())
-    })
+    // let url = isSignup ? 'api/signup' : 'api/login';
+    // axios.post(`/${url}`, authData).then(res => {
+    //     const expirationDate = new Date(new Date().getTime() + res.data.expiresIn * 1000)
+    //     localStorage.setItem('token', res.data.token)
+    //     localStorage.setItem('expirationDate', expirationDate)
+    //     localStorage.setItem('userId', res.data._id)        
+    //     dispatch(authSuccess(res.data))
+    // }).catch(err => {
+    //     console.log(err)
+    //     dispatch(authFail())
+    // })
 }
 // LOGIN OUT LOGIC
 export const authLogout = () => {
