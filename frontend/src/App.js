@@ -6,10 +6,17 @@ import AuthPage from './containers/Auth/Auth';
 import Layout from './hoc/Layout/Layout';
 import './App.scss';
 
+import actions from './store/actions';
+
 const asyncMyTabsPage = lazy(() => import('./containers/MyTabs/MyTabs'));
 
 
 class App extends Component {
+
+  componentDidMount() {
+    this.props.checkAuth()
+  }
+
   render() {
     let routes = (
         <Switch>
@@ -27,15 +34,15 @@ class App extends Component {
       )
     } 
     return (
-      <Layout>
-      <div className="App">
-        <ErrorBoundary>
-          <Suspense fallback={<div>Loading...</div>}>
-            {routes}
-          </Suspense>
-        </ErrorBoundary>
-      </div>
-      </Layout>
+      <ErrorBoundary>
+        <Layout isAuth={this.props.isAuth}> 
+          <div className="App">
+            <Suspense fallback={<div>Loading...</div>}>
+              {routes}
+            </Suspense>
+          </div>
+        </Layout>
+      </ErrorBoundary>
     );
   }
 }
@@ -47,7 +54,7 @@ const mapStateToProps = state => {
 }
 const mapDispatchToProps = dispatch => {
   return {
-
+    checkAuth: () => dispatch(actions.auth.checkAuth())
   }
 }
 

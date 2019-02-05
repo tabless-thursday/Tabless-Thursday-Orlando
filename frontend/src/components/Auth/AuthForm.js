@@ -1,33 +1,49 @@
 import React from 'react';
 import PrimaryButton from '../UI/Buttons/PrimaryButton/PrimaryButton';
-import CancelButton from '../UI/Buttons/CancelButton/CancelButton';
+import SecondaryButton from '../UI/Buttons/SecondaryButton/SecondaryButton';
 import Input from '../UI/Inputs/Input/Input';
-import PasswordInput from '../UI/Inputs/PasswordInput/PasswordInput';
 
 import './AuthForm.scss';
 
 
-const authForm = (props) => (
-    <div className="AuthContainer">
-        <div class="BackgroundImage"></div>
-        <form className="AuthForm">
-            <h1>Sign In<p>to continue to Tabless Thursday</p></h1>
-            <div className="AuthInputs">
-               <Input label="Username" />
-               <PasswordInput label="Password" />
-            </div>
-            <div className="LoginActionHolder">
-                <div className="AuthLoginButton">
-                    <PrimaryButton>Login</PrimaryButton>
+const authForm = (props) => {
+    let canSubmit = true;
+    props.controls.forEach(control => {
+        if (canSubmit && control.frame.valid === false) {
+            canSubmit = false
+        }
+    })
+    let inputs = props.controls.map(control => <Input
+                                                    canSubmitForm={canSubmit} 
+                                                    submit={props.submitForm}
+                                                    key={control.id}
+                                                    elementFrame={control.frame.elementFrame}
+                                                    changed={(e) => props.inputChanged(e, control.id)}
+                                                    shouldValidate={control.frame.validation}
+                                                    touched={control.frame.touched}
+                                                    invalid={!control.frame.valid}
+                                                />)
+    
+    return (
+        <div className={props.isSignUp ? "AuthContainer SignUp" : "AuthContainer"}>
+            <div className="BackgroundImage"></div>
+            <form className="AuthForm">
+                <h1>{props.isSignUp ? "Sign Up" : "Sign In"}<p>to continue to Tabless Thursday</p></h1>
+                <div className="InputsHolder">
+                    {inputs}
                 </div>
-                <div className="AuthCancelButton">
-                    <CancelButton>Cancel</CancelButton>
+                <div className="LoginActionHolder">
+                    <div className="AuthLoginButton" onClick={props.submitForm}>
+                        <PrimaryButton disabled={!canSubmit}>{props.isSignUp ? "Sign Up" : "Login"}</PrimaryButton>
+                    </div>
+                    <div className="AuthCancelButton" onClick={props.switchToSignUp}>
+                        <SecondaryButton>Switch to {props.isSignUp ? "Sign In" : "Sign Up"}</SecondaryButton>
+                    </div>
                 </div>
-            </div>
-        </form>
-    </div>
-
-)
+            </form>
+        </div>
+    )
+}
 
 
 export default authForm;

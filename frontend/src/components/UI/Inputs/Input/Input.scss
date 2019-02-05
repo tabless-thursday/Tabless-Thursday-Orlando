@@ -1,7 +1,11 @@
 @import '../../../../styles/variables.scss';
 .InputHolder {
     position: relative;
-    margin-bottom: 2rem;
+    margin-bottom: 1.9rem;
+    width: 30rem;
+    @media #{$mobile} {
+        width: 100%;
+    }
 }
 .Label, 
 .Input {
@@ -49,4 +53,21 @@
             color: #777;
         }
     }
+    &.Invalid {
+        border: 1px solid red;
+        background-color: #FFD0D0;
+    }
+}
+.InputHolder > span {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    text-align: center;
+    width: 4rem;
+    line-height: 4.6;
+    border-top-right-radius: 5px;
+    background-color: #777;
+    color:white;
+    border-bottom-right-radius: 5px; 
 }

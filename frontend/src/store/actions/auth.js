@@ -43,12 +43,12 @@ export const authLogout = () => {
 	localStorage.removeItem('expirationDate');
 	localStorage.removeItem('userId');
 	return {
-		type: actionTypes.AUTH_LOGOUT
+		type: authTypes.AUTH_LOGOUT
 	}
 }
 // LOGIN IN THREW TOKEN STORED IN LOCALSTORAGE ON APP LOAD
 const checkAuthTimeout = (expirationDate) => dispatch => {
-	setTimeout(() => {dispatch(logout())}, (expirationDate)*1000);
+	setTimeout(() => {dispatch(authLogout())}, (expirationDate)*1000);
 }
 
 export const checkAuth = () => dispatch => {
@@ -61,7 +61,7 @@ export const checkAuth = () => dispatch => {
             dispatch(authLogout());
         } else {
             const userId = localStorage.getItem('userId');
-            authData = {_id: userId, token: token, expirationDate: expirationDate}
+            const authData = {_id: userId, token: token, expirationDate: expirationDate}
             dispatch(authSuccess(authData))
             dispatch(checkAuthTimeout((expirationDate.getTime() - new Date.getTime())/1000))
         }

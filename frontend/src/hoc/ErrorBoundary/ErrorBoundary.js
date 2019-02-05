@@ -22,7 +22,7 @@ class ErrorBoundary extends Component {
                     <br />
                     {this.state.errorInfo.componentStack}
                 </details>
-                <span>Click <Link to="/">me</Link> to get out of here!</span>
+                <span>Click <a href="https://deploy-preview-1--pensive-mestorf-42e34b.netlify.com/">me</a> to get out of here!</span>
             </div>
             )
         }
