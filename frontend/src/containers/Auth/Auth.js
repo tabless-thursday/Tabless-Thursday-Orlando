@@ -73,6 +73,9 @@ class Auth extends Component {
     }
 
     render() {
+        if (this.props.authError) {
+            throw new Error(this.props.authError)
+        }
         let formElementsArray = [];
         for (let key in this.state.controls) {
             formElementsArray.push({
@@ -109,14 +112,15 @@ class Auth extends Component {
 
 const mapStateToProps = state => {
     return {
-        authenticating: state.auth.loading
+        authenticating: state.auth.loading,
+        authError: state.auth.error,
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAuth: (AuthData, isSignUp) => dispatch(actions.auth.authStart(AuthData, isSignUp))
+        onAuth: (AuthData, isSignUp) => dispatch(actions.auth.executeAuth(AuthData, isSignUp)),
     }
 }
 
-export default connect(null, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);
