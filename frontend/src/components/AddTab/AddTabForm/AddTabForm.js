@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { checkValidity } from '../../../shared/checkValidity';
+import { connect } from 'react-redux';
 import InputHolder from './InputHolder/InputHolder';
 import PrimaryButton from '../../UI/Buttons/PrimaryButton/PrimaryButton';
 
@@ -42,6 +43,13 @@ class AddTabForm extends Component {
             return { controls: updatedControls }
         })
     }
+    submitFormHandler = () => {
+        let formData = {
+            url: this.state.controls.url.elementFrame.value,
+            importance: this.state.controls.importance.elementFrame.value,
+            category: this.state.controls.category.elementFrame.value
+        }
+    }
 
     render() {
         let canSubmit = true;
@@ -55,13 +63,29 @@ class AddTabForm extends Component {
             <div className="AddTabForm__Header">
               <h2>We'll need some information about your new Tab</h2>
             </div>
-            <InputHolder controls={this.state.controls} inputChange={this.inputChangedHandler}/>
-            <div className="AddTabForm__SubmitButton">
-                <PrimaryButton disabled={!canSubmit}>{canSubmit && "We\'\ll take care of the rest!"}</PrimaryButton>
+            <InputHolder 
+                submit={this.submitFormHandler} 
+                controls={this.state.controls} 
+                canSubmitForm={canSubmit}
+                inputChange={this.inputChangedHandler}
+            />
+            <div className="AddTabForm__SubmitButton" onClick={this.submitFormHandler}>
+                <PrimaryButton disabled={!canSubmit}>{canSubmit && "We'll take care of the rest!"}</PrimaryButton>
             </div>
           </form>
         )
     }
 }
 
-export default AddTabForm
+const mapStateToProps = state => {
+    return {
+
+    }
+}
+const mapDispatchToProps = dispatch => {
+    return {
+        // onAddTab: () => {}
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddTabForm);

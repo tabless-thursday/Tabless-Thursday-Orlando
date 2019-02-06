@@ -8,8 +8,7 @@ import './App.scss';
 import MyTabsPage from './containers/MyTabs/MyTabs'
 
 import actions from './store/actions';
-import asyncAddTab from './containers/AddTab/AddTab';
-// const asyncAddTab = lazy(() => import('./containers/AddTab/AddTab'));
+const AsyncAddTab = lazy(() => import('./containers/AddTab/AddTab'));
 
 
 class App extends Component {
@@ -30,7 +29,7 @@ class App extends Component {
         <Switch>
           <Redirect from="/" exact to="/my-tabs" /> 
           <Route path="/my-tabs" component={MyTabsPage} />
-          <Route path="/add-tab" component={asyncAddTab} />
+          <Route path="/add-tab" component={props => <AsyncAddTab {...props} />} />
           <Redirect to="/my-tabs" />
         </Switch>
       )

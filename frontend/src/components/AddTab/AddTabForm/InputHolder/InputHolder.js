@@ -25,7 +25,12 @@ const inputHolder = (props) => {
             elementFrame={props.controls.importance.elementFrame} 
             changed={(e) => props.inputChange(e, "importance")} 
         />
-        <input className={categoryInputClass} {...props.controls.category.elementFrame} onChange={(e) => props.inputChange(e, "category")} />
+        <input 
+            className={categoryInputClass} 
+            {...props.controls.category.elementFrame} 
+            onChange={(e) => props.inputChange(e, "category")}
+            onKeyPress={handleEnter} 
+        />
       </div>
   )
 }
