@@ -16,8 +16,8 @@ class AddTabForm extends Component {
                 touched: false
             },
             importance: {
-                elementFrame: { col:"30", rows:"7", placeholder: 'Why is this tab important to you?', value: '', maxLength: 240 },
-                validation: { required: false, maxLength: 240 },
+                elementFrame: { col:"30", rows:"7", placeholder: 'Why is this tab important to you?', value: '', maxLength: 140 },
+                validation: { required: false, maxLength: 140 },
                 valid: true,
                 touched: false
             },
