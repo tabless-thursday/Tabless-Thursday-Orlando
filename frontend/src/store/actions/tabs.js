@@ -89,11 +89,12 @@ const updateFailed = () => {
     }
 }
 export const updateTab = (updatedTab, tabId) => dispatch => {
-    dispatch(updatingTab())
-    axios.put(`tabs/${tabId}`).then(res => {
-        dispatch(updateSucceeded(res.data))
-    }).catch(err => {
-        dispatch(updateFailed())
-        console.log(err)
-    })
+    console.log(updatedTab, tabId)
+    // dispatch(updatingTab())
+    // axios.put(`tabs/${tabId}`).then(res => {
+    //     dispatch(updateSucceeded(res.data))
+    // }).catch(err => {
+    //     dispatch(updateFailed())
+    //     console.log(err)
+    // })
 }

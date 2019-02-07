@@ -55,7 +55,8 @@ class AddTabForm extends Component {
             importance: this.state.controls.importance.elementFrame.value,
             category: this.state.controls.category.elementFrame.value
         }
-        this.props.onAddTab(formData, this.props.userId);
+        this.props.onUpdateTab(formData, this.props.tab.tabId);
+        this.props.cancelUpdate()
     }
 
     render() {
@@ -83,15 +84,10 @@ class AddTabForm extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        userId: state.auth.user._id
-    }
-}
 const mapDispatchToProps = dispatch => {
     return {
-        onAddTab: (formData, userId) => dispatch(actions.tabs.addTab(formData, userId))
+        onUpdateTab: (updatedTab, tabId) => dispatch(actions.tabs.updateTab(updatedTab, tabId))
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddTabForm);
+export default connect(null, mapDispatchToProps)(AddTabForm);

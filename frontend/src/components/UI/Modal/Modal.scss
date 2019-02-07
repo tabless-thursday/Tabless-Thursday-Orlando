@@ -9,6 +9,10 @@
     top: 20vh;
     left: 5%;
     z-index: 300;
+    animation-name: modal;
+    animation-duration: .4s;
+    animation-fill-mode: both;
+    animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275)
 }
 
 .modal__header {
@@ -27,4 +31,8 @@
         width: 60rem;
         left: calc((100% - 60rem) / 2);
     }
+}
+@keyframes modal {
+    0% {transform: translateY(-400px)}
+    100% {transform: translateY(-50px)}
 }
