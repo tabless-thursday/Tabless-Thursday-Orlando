@@ -48,7 +48,7 @@ class AddTabForm extends Component {
         let formData = {
             url: this.state.controls.url.elementFrame.value,
             importance: this.state.controls.importance.elementFrame.value,
-            category: this.state.controls.category.elementFrame.value
+            category: this.state.controls.category.elementFrame.value || "uncategorized"
         }
         this.props.onAddTab(formData, this.props.userId);
     }

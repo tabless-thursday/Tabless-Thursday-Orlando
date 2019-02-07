@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import actions from '../../store/actions';
-
+import UpdateTabForm from '../../components/AddTab/UpdateTabForm/UpdateTabForm';
+import Modal from '../../components/UI/Modal/Modal';
 import MyTab from '../../components/MyTab/MyTab';
 
 
@@ -19,6 +20,9 @@ class MyTabs extends Component {
     tagEditHandler = (e, tabId) => {
         e.stopPropagation();
         this.setState({idOfTagToUpdate: tabId})
+    }
+    cancelUpdateHandler = () => {
+        this.setState({idOfTagToUpdate: null})
     }
     
     render() {
@@ -47,9 +51,15 @@ class MyTabs extends Component {
                         })}
                 </div>
             )})
-            console.log(this.state.idOfTagToUpdate)
+        let modal = null;
+        if (this.state.idOfTagToUpdate) {
+            modal = (<Modal title="Update Your Tab" cancelUpdate={this.cancelUpdateHandler}>
+                        <UpdateTabForm cancelUpdate={this.cancelUpdateHandler} tab={this.props.tabs.find(tab => tab.tabId === this.state.idOfTagToUpdate)}/>
+                    </Modal>)
+        }
         return (
             <div className="MyTabsContainer">
+                {modal}
                 {userTabs}
             </div>
         )
