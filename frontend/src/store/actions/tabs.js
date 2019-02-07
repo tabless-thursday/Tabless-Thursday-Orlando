@@ -20,12 +20,13 @@ const addFailed = () => {
 }
 export const addTab = (tabData, userId) => dispatch => {
     dispatch(addingTab());
-    axios.post(`tabs/${userId}`).then(res => {
-        dispatch(addSucceeded(res.data))
-    }).catch(err => {
-        dispatch(addFailed())
-        console.error(err)
-    })
+    console.log('tabData:',tabData, 'userId:', userId )
+    // axios.post(`tabs/${userId}`).then(res => {
+    //     dispatch(addSucceeded(res.data))
+    // }).catch(err => {
+    //     dispatch(addFailed())
+    //     console.error(err)
+    // })
 }
 // FETCH TABS UPON LOGIN
 const fetchingTabs = () => {
@@ -45,13 +46,14 @@ const fetchFailed = () => {
     }
 }
 export const fetchTabs = (userId) => dispatch => {
-    dispatch(fetchingTabs())
-    axios.get(`tabs/${userId}`).then(res => {
-        dispatch(fetchSucceeded(res.data))
-    }).catch(err => {
-        dispatch(fetchFailed())
-        console.error(err)
-    })
+    console.log("waiting for proper end point")
+    // dispatch(fetchingTabs())
+    // axios.get(`tabs/${userId}`).then(res => {
+    //     dispatch(fetchSucceeded(res.data))
+    // }).catch(err => {
+    //     dispatch(fetchFailed())
+    //     console.error(err)
+    // })
 }
 // DELETE TAB
 const deleteTabSucceeded = (updatedTabs) => {
@@ -62,11 +64,12 @@ const deleteTabSucceeded = (updatedTabs) => {
 
 }
 export const deleteTab = (tabId) => dispatch => {
-    axios.get(`/:${tabId}`).then(res => {
-        dispatch(deleteTabSucceeded(res.data))
-    }).catch(err => {
-        console.error(err)
-    })
+    console.log(tabId)
+    // axios.get(`/:${tabId}`).then(res => {
+    //     dispatch(deleteTabSucceeded(res.data))
+    // }).catch(err => {
+    //     console.error(err)
+    // })
 }
 // UPDATE A TAB WITH tabId
 const updatingTab = () => {

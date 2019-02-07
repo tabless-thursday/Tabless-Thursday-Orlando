@@ -18,11 +18,7 @@ export default (state = initialState, action) => {
         case authTypes.AUTH_LOGOUT:
             return {
                 ...state,
-                user: {
-                    _id:null,
-                    token:null,
-                    username: null
-                },
+                user: { _id:null, token:null, username: null },
                 loading: false,
                 error: null,
                 greet: false

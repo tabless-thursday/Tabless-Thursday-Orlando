@@ -17,9 +17,10 @@ const myTabs = (props) => {
   }
   
   return (
-    <div className="MyTabContainer" onClick={handlerExpansion} ref={tabRef}>
+    <div className="MyTabContainer" onClick={handlerExpansion} ref={tabRef} >
         <MyTabMain src={tabIconLink} placeLink={dummyLink.pathname === '/' ? dummyLink.hostname : `${dummyLink.pathname+dummyLink.search}`} href={props.tab.tabUrl} />
-        <MyTabBody importance={props.tab.importance} category={props.tab.category} />
+        <MyTabBody importance={props.tab.importance} category={props.tab.category} tagEdit={props.tagEdit}/>
+        <span className="MyTabContainer-Delete__button" onClick={props.deleteTab}></span>
     </div>
   )
 }
