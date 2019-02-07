@@ -3,6 +3,7 @@ import { checkValidity } from '../../../shared/checkValidity';
 import { connect } from 'react-redux';
 import InputHolder from './InputHolder/InputHolder';
 import PrimaryButton from '../../UI/Buttons/PrimaryButton/PrimaryButton';
+import actions from '../../../store/actions';
 
 import './AddTabForm.scss';
 
@@ -49,6 +50,7 @@ class AddTabForm extends Component {
             importance: this.state.controls.importance.elementFrame.value,
             category: this.state.controls.category.elementFrame.value
         }
+        this.props.onAddTab(formData, this.props.userId);
     }
 
     render() {
@@ -79,12 +81,12 @@ class AddTabForm extends Component {
 
 const mapStateToProps = state => {
     return {
-
+        userId: state.auth.user._id
     }
 }
 const mapDispatchToProps = dispatch => {
     return {
-        onAddTab: () => {}
+        onAddTab: (formData, userId) => dispatch(actions.tabs.addTab(formData, userId))
     }
 }
 

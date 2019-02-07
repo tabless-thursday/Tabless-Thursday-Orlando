@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instace = axios.create({
-    baseURL: 'TBD'
+    baseURL: 'https://jm020801tablessthursday.herokuapp.com/'
 })
 
 export default instace;

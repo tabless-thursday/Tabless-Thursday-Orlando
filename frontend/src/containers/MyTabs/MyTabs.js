@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
+import actions from '../../store/actions';
 
 import MyTab from '../../components/MyTab/MyTab';
 
@@ -7,6 +8,10 @@ import MyTab from '../../components/MyTab/MyTab';
 import './MyTabs.scss';
 
 class MyTabs extends Component {
+
+    componentDidMount() {
+        this.props.onFetchUserTabs(this.props.userId)
+    }
     
     render() {
         let copiedTabs = [...this.props.tabs];
@@ -44,12 +49,13 @@ class MyTabs extends Component {
 
 const mapStateToProps = state => {
     return {
-        tabs: state.tabs.userTabs
+        tabs: state.tabs.userTabs,
+        userId: state.auth.user._id
     }
 }
 const mapDispacthToProps = dispatch => {
     return {
-        
+        onFetchUserTabs: (userId) => dispatch(actions.tabs.fetchTabs(userId))
     }
 }
 

@@ -1,34 +1,83 @@
 import { tabsTypes } from '../actions/actionTypes';
 
 const initialState = {
-    userTabs: [
-        {tabId: '1', tabUrl: 'https://learn.lambdaschool.com/fsw/sprint/reckzqd7zgify5ok5', importance: 'Lorem ipsum dolor sit amet, vis movet nobis dignissim ei, soluta legimus apeirian id usu. No wisi appetere sit, ius aliquip epicurei id. Odio eius', category: 'favorites', creator: '2121'}, {tabId: '2', tabUrl: 'google.com', importance: 'Nice Site', category: 'favorites', creator: '2121'}, 
-        {tabId: '3', tabUrl: 'https://www.w3schools.com/jsref/jsref_includes.asp', importance: 'Nice Site', category: 'favorites', creator: '2121'}, 
-        {tabId: '4', tabUrl: 'https://www.youtube.com/watch?v=HUHC9tYz8ik', importance: 'Nice Site', category: 'favorites', creator: '2121'}, 
-        {tabId: '5', tabUrl: 'https://lambdaschoolstudents.slack.com/messages/G97S3RGE7/convo/CFX59TAMV-1549498793.080400/', importance: 'Nice Site', category: 'favorites', creator: '2121'}, 
-        {tabId: '6', tabUrl: 'www.google.com', importance: 'Nice Site', category: 'favorites', creator: '2121'}, 
-        {tabId: '7', tabUrl: 'www.google.com', importance: 'Nice Site', category: 'favorites', creator: '2121'}, 
-        {tabId: '8', tabUrl: 'www.google.com', importance: 'Nice Site', category: 'favorites', creator: '2121'}, 
-        {tabId: '9', tabUrl: 'www.google.com', importance: 'Nice Site', category: 'favorites', creator: '2121'}, 
-        {tabId: '10', tabUrl: 'www.google.com', importance: 'Nice Site', category: 'favorites', creator: '2121'}, 
-        {tabId: '11', tabUrl: 'www.google.com', importance: 'Nice Site', category: 'favorites', creator: '2121'}, 
-        // {tabId: '12', tabUrl: 'www.google.com', importance: 'Nice Site', category: 'favorites', creator: '2121'}, 
-        // {tabId: '13', tabUrl: 'www.google.com', importance: 'Nice Site', category: 'favorites', creator: '2121'}, 
-        // {tabId: '14', tabUrl: 'www.google.com', importance: 'Nice Site', category: 'favorites', creator: '2121'}, 
-        // {tabId: '15', tabUrl: 'www.google.com', importance: 'Nice Site', category: 'favorites', creator: '2121'}, 
-        // {tabId: '16', tabUrl: 'www.google.com', importance: 'Nice Site', category: 'favorites', creator: '2121'}, 
-        // {tabId: '17', tabUrl: 'www.google.com', importance: 'Nice Site', category: 'favorites', creator: '2121'}, 
-        // {tabId: '18', tabUrl: 'www.google.com', importance: 'Nice Site', category: 'favorites', creator: '2121'}, 
-        // {tabId: '19', tabUrl: 'www.google.com', importance: 'Nice Site', category: 'favorites', creator: '2121'}, 
-        // {tabId: '20', tabUrl: 'www.google.com', importance: 'Nice Site', category: 'favorites', creator: '2121'}, 
-        // {tabId: '21', tabUrl: 'www.google.com', importance: 'Nice Site', category: 'favorites', creator: '2121'}, 
-        // {tabId: '22', tabUrl: 'www.google.com', importance: 'Nice Site', category: 'favorites', creator: '2121'}
-    ],
+    userTabs: [],
+    fetch: {
+        fetching: false,
+        fetched: false,
+        error: null
+    },
+    add: {
+        adding: false,
+        added: false,
+        error: null
+    },
+    delete: {
+        deleted: false,
+    },
+    update: {
+        updating: false,
+        updated: false,
+        error: null
+    }
 }
 
 export default (state = initialState, action) => {
     switch (action.key) {
-    
+        case tabsTypes.ADDING_TAB:
+            return {
+                ...state,
+                add: {adding: true, added: false, error: null}
+            }
+        case tabsTypes.ADD_SUCCEEDED:
+            return {
+                ...state,
+                userTabs: action.newTabs,
+                add: {adding: false, added: true, error: null}
+            }
+        case tabsTypes.ADD_FAILED:
+            return {
+                ...state,
+                add: {adding: false, added: false, error: "Could not add tab"}
+            }
+        case tabsTypes.FETCHING_TABS:
+            return {
+                ...state,
+                fetch: {fetching: true, fetched: false, error: null}
+            }
+        case tabsTypes.FETCH_SUCCEEDED:
+            return {
+                ...state,
+                userTabs: action.userTabs,
+                fetch: {fetching: false, fetched: true, error: null}
+            }
+        case tabsTypes.FETCH_FAILED:
+            return {
+                ...state,
+                fetch: {fetching: false, fetched: false, error: "Could not fetch tabs"}
+            }
+        case tabsTypes.DELETE_SUCCEEDED: 
+            return {
+                ...state,
+                userTabs: action.updatedTabs,
+                delete: {deleted: true}
+            }
+        case tabsTypes.UPDATING_TAB:
+            return {
+                ...state,
+                update: {updating: true, updated: false, error: null},
+            }
+        case tabsTypes.UPDATE_SUCCEEDED:
+            return {
+                ...state,
+                userTabs: action.updatedTabs,
+                update: {updating: false, updated: true, error: null}
+            }
+        case tabsTypes.UPDATE_FAILED:
+            return {
+                ...state,
+                update: {updating: false, updated: false, error: "Could not update tab"}
+            }
         default:
             return state;
     }

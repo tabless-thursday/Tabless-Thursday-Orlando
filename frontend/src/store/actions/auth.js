@@ -52,7 +52,7 @@ export const executeAuth = (authData, isSignup) => dispatch => {
     //     dispatch(authFail())
     // })
 }
-// LOGIN OUT LOGIC
+// LOGOUT LOGIC
 export const logout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('expirationDate');
@@ -62,7 +62,7 @@ export const logout = () => {
 		type: authTypes.AUTH_LOGOUT
 	}
 }
-// LOGIN IN THREW TOKEN STORED IN LOCALSTORAGE ON APP LOAD
+// LOGIN THROUGH TOKEN STORED IN LOCALSTORAGE ON APP LOAD
 const checkAuthTimeout = (expirationDate) => dispatch => {
 	setTimeout(() => {dispatch(logout())}, (expirationDate)*1000);
 }
