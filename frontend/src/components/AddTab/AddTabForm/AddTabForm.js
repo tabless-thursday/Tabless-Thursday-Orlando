@@ -51,6 +51,7 @@ class AddTabForm extends Component {
             category: this.state.controls.category.elementFrame.value || "uncategorized"
         }
         this.props.onAddTab(formData, this.props.userId);
+        this.props.history.replace('/my-tabs');
     }
 
     render() {

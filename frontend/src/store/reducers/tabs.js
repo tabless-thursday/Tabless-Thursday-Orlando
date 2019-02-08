@@ -1,16 +1,7 @@
 import { tabsTypes } from '../actions/actionTypes';
 
 const initialState = {
-    userTabs: [
-        {tabId: '1', tabUrl: "google.com", importance:"very useful site", category: "favorites"},
-        {tabId: '2', tabUrl: "learn.lambdaschool.com", importance:"school resources", category: "education"},
-        {tabId: '3', tabUrl: "youtube.com", importance:"good videos", category: "favorites"},
-        {tabId: '4', tabUrl: "northwestern.edu", importance:"cool school", category: "education"},
-        {tabId: '5', tabUrl: "twitter.com", importance:"for following cool people", category: "favorites"},
-        {tabId: '6', tabUrl: "instagram.com", importance:"for dank pics", category: "favorites"},
-        {tabId: '7', tabUrl: "www.spacex.com", importance:"they have cool rockets", category: "space"},
-        {tabId: '8', tabUrl: "https://reactjs.org/", importance:"time to learn hocks!", category: "programming"},
-    ],
+    userTabs: [],
     fetch: {
         fetching: false,
         fetched: false,
@@ -32,7 +23,7 @@ const initialState = {
 }
 
 export default (state = initialState, action) => {
-    switch (action.key) {
+    switch (action.type) {
         case tabsTypes.ADDING_TAB:
             return {
                 ...state,
@@ -68,7 +59,7 @@ export default (state = initialState, action) => {
         case tabsTypes.DELETE_SUCCEEDED: 
             return {
                 ...state,
-                userTabs: action.updatedTabs,
+                userTabs: state.userTabs.filter(tab => tab.tabId !== action.tabId),
                 delete: {deleted: true}
             }
         case tabsTypes.UPDATING_TAB:
@@ -79,7 +70,12 @@ export default (state = initialState, action) => {
         case tabsTypes.UPDATE_SUCCEEDED:
             return {
                 ...state,
-                userTabs: action.updatedTabs,
+                userTabs: state.userTabs.map(tab => {
+                    if (tab.tabId !== action.tabId) {
+                        return tab
+                    }
+                    return {...tab, ...action.updatedTab}
+                }),
                 update: {updating: false, updated: true, error: null}
             }
         case tabsTypes.UPDATE_FAILED:

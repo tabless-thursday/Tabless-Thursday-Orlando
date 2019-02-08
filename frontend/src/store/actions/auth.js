@@ -13,16 +13,23 @@ const authSuccess = (authData) => {
         authData: authData
     }
 }
-const authFail = () => {
+const authFail = (message) => {
     return {
-        type: authTypes.AUTH_FAIL
+        type: authTypes.AUTH_FAIL,
+        message: message || "sorry, we could not authenticate you"
     }
 }
 export const executeAuth = (authData, isSignup) => dispatch => {
     dispatch(authStarting())
-    setTimeout(() => {
-        // dispatch(authFail()) // CAUSE ERROR
-        const expirationDate = new Date(new Date().getTime() + 60000 * 120);
+    let url = isSignup ? 'auth/signup' : 'auth/login';
+    axios.post(`/${url}`, authData).then(res => {
+        if (!res.data.token && isSignup) {
+            return dispatch(authFail(res.data.message));
+        }
+        if (!res.data.token) {
+            return dispatch(authFail());
+        }
+        const expirationDate = new Date(new Date().getTime() + res.data.expiresIn * 60000)
         let nextGreet = localStorage.getItem('nextGreeting');
         let shouldGreet = false;
         if (!nextGreet) {
@@ -34,23 +41,16 @@ export const executeAuth = (authData, isSignup) => dispatch => {
             localStorage.setItem('nextGreeting', nextGreet)
             shouldGreet = true;
         }
-        localStorage.setItem('token', 'backendToken');
-        localStorage.setItem('expirationDate', expirationDate);
-        localStorage.setItem('username', 'lambda');
-        localStorage.setItem('userId', '3239834u924182u3');
-        dispatch(authSuccess({token: 'backendToken', userId: '3239834u924182u3', username: 'lambda', greet: shouldGreet}))
-    }, 500)
-    // let url = isSignup ? 'api/signup' : 'api/login';
-    // axios.post(`/${url}`, authData).then(res => {
-    //     const expirationDate = new Date(new Date().getTime() + res.data.expiresIn * 1000)
-    //     localStorage.setItem('token', res.data.token)
-    //     localStorage.setItem('expirationDate', expirationDate)
-    //     localStorage.setItem('userId', res.data._id)        
-    //     dispatch(authSuccess(res.data))
-    // }).catch(err => {
-    //     console.log(err)
-    //     dispatch(authFail())
-    // })
+        localStorage.setItem('token', res.data.token)
+        localStorage.setItem('expirationDate', expirationDate)
+        localStorage.setItem('userId', res.data.userId)
+        localStorage.setItem('username', res.data.username);     
+        res.data.greet = shouldGreet;   
+        dispatch(authSuccess(res.data))
+    }).catch(err => {
+        console.log(err)
+        dispatch(authFail())
+    })
 }
 // LOGOUT LOGIC
 export const logout = () => {

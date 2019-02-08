@@ -20,13 +20,13 @@ const addFailed = () => {
 }
 export const addTab = (tabData, userId) => dispatch => {
     dispatch(addingTab());
-    console.log('tabData:',tabData, 'userId:', userId )
-    // axios.post(`tabs/${userId}`).then(res => {
-    //     dispatch(addSucceeded(res.data))
-    // }).catch(err => {
-    //     dispatch(addFailed())
-    //     console.error(err)
-    // })
+    axios.post(`tabs/${userId}`, tabData).then(res => {
+        const transformedTabs = res.data.map(tab => ({...tab, tabId: tab._id}))
+        dispatch(addSucceeded(transformedTabs))
+    }).catch(err => {
+        dispatch(addFailed())
+        console.error(err)
+    })
 }
 // FETCH TABS UPON LOGIN
 const fetchingTabs = () => {
@@ -46,30 +46,29 @@ const fetchFailed = () => {
     }
 }
 export const fetchTabs = (userId) => dispatch => {
-    console.log("waiting for proper end point")
-    // dispatch(fetchingTabs())
-    // axios.get(`tabs/${userId}`).then(res => {
-    //     dispatch(fetchSucceeded(res.data))
-    // }).catch(err => {
-    //     dispatch(fetchFailed())
-    //     console.error(err)
-    // })
+    dispatch(fetchingTabs())
+    axios.get(`tabs/${userId}`).then(res => {
+        const transformedTabs = res.data.map(tab => ({...tab, tabId: tab._id}))
+        dispatch(fetchSucceeded(transformedTabs))
+    }).catch(err => {
+        dispatch(fetchFailed())
+        console.error(err)
+    })
 }
 // DELETE TAB
-const deleteTabSucceeded = (updatedTabs) => {
+const deleteTabSucceeded = (tabId) => {
     return { 
         type: tabsTypes.DELETE_SUCCEEDED,
-        updatedTabs: updatedTabs
+        tabId: tabId
     }
 
 }
 export const deleteTab = (tabId) => dispatch => {
-    console.log(tabId)
-    // axios.get(`/:${tabId}`).then(res => {
-    //     dispatch(deleteTabSucceeded(res.data))
-    // }).catch(err => {
-    //     console.error(err)
-    // })
+    axios.delete(`/tabs/${tabId}`).then(res => {
+        dispatch(deleteTabSucceeded(tabId))
+    }).catch(err => {
+        console.error(err)
+    })
 }
 // UPDATE A TAB WITH tabId
 const updatingTab = () => {
@@ -77,10 +76,11 @@ const updatingTab = () => {
         type: tabsTypes.UPDATING_TAB
     }
 }
-const updateSucceeded = (updatedTabs) => {
+const updateSucceeded = (updatedTab, tabId) => {
     return {
         type: tabsTypes.UPDATE_SUCCEEDED,
-        updatedTabs: updatedTabs
+        updatedTab: updatedTab,
+        tabId: tabId
     }
 }
 const updateFailed = () => {
@@ -89,12 +89,11 @@ const updateFailed = () => {
     }
 }
 export const updateTab = (updatedTab, tabId) => dispatch => {
-    console.log(updatedTab, tabId)
-    // dispatch(updatingTab())
-    // axios.put(`tabs/${tabId}`).then(res => {
-    //     dispatch(updateSucceeded(res.data))
-    // }).catch(err => {
-    //     dispatch(updateFailed())
-    //     console.log(err)
-    // })
+    dispatch(updatingTab())
+    axios.put(`tabs/${tabId}`, updatedTab).then(res => {
+        dispatch(updateSucceeded(updatedTab, tabId))
+    }).catch(err => {
+        dispatch(updateFailed())
+        console.log(err)
+    })
 }

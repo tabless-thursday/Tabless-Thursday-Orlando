@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instace = axios.create({
-    baseURL: 'https://jm020801tablessthursday.herokuapp.com'
+    baseURL: 'http://localhost:5000'
 })
 
 export default instace;

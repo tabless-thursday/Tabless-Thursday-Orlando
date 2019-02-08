@@ -10,7 +10,7 @@ export class AddTab extends Component {
     return (
       <div className="AddTabContainer">
         <h1>Add A New Tab! 🥳</h1>
-        <AddTabForm />
+        <AddTabForm history={this.props.history} />
       </div>
     )
   }

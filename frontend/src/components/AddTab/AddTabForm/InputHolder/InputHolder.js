@@ -21,7 +21,7 @@ const inputHolder = (props) => {
             <input className={urlInputClass} {...props.controls.url.elementFrame} onChange={(e) => props.inputChange(e, "url")} />
         </div>
         <TextArea 
-            numChar={props.controls.importance.elementFrame.value.length} 
+            numChar={props.controls.importance.elementFrame.value || ''} 
             elementFrame={props.controls.importance.elementFrame} 
             changed={(e) => props.inputChange(e, "importance")} 
         />

@@ -24,26 +24,19 @@ class MyTabs extends Component {
     cancelUpdateHandler = () => {
         this.setState({idOfTagToUpdate: null})
     }
-    
+
     render() {
         let copiedTabs = [...this.props.tabs];
-        let copiedColumnedTabs = copiedTabs.reduce((accum, tab, i) => {
-            if (i === 0) {
-                return [[tab]]
+        const tabElements = copiedTabs.reduce((accum, tab, i) => {
+            const valuesInCurrentColumn = accum[accum.length - 1];
+            if (valuesInCurrentColumn !== undefined && valuesInCurrentColumn.length < 5) {
+                const updatedCurrentColumn = [...accum[accum.length - 1], tab]
+                accum.pop();
+                return [...accum, updatedCurrentColumn]
             }
-            let currentAccumIndex = accum.length - 1;
-            if (accum[currentAccumIndex].length <= 3) {
-                let currentColumn = [...accum[currentAccumIndex]]
-                currentColumn.push(tab)
-                accum.pop()
-                accum.push(currentColumn);
-                return accum
-            }
-            accum[currentAccumIndex].push(tab)
-            accum.push([])
-            return accum
+            return [...accum, [tab]]
         }, [])
-            const userTabs = copiedColumnedTabs.map((column, i) => {
+            const userTabs = tabElements.map((column, i) => {
                 return (
                 <div key={i} className="TabsColumn">
                     {column.map(tab => {
@@ -60,7 +53,7 @@ class MyTabs extends Component {
         return (
             <div className="MyTabsContainer">
                 {modal}
-                {userTabs}
+                {userTabs.length > 0 ? userTabs : <p style={{marginLeft: "5rem", fontSize:"1.4rem"}}>Start adding some tabs!</p>}
             </div>
         )
     }

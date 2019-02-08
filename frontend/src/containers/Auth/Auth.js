@@ -73,9 +73,6 @@ class Auth extends Component {
     }
 
     render() {
-        if (this.props.authError) {
-            throw new Error(this.props.authError)
-        }
         let formElementsArray = [];
         for (let key in this.state.controls) {
             formElementsArray.push({
@@ -102,9 +99,11 @@ class Auth extends Component {
                     <img src={bookMarkSVG} alt="bookmarks" />
                 </div>
                 {authForm}
+                {this.props.authError && <p className="AuthError">{this.props.authError}</p>}
                 <div className="CheckingSVGContainer">
                     <img src={checkingSVG} alt="bookmarks" />
                 </div>
+                
             </div>
         )
     }

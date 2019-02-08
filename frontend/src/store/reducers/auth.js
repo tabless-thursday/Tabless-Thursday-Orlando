@@ -43,7 +43,7 @@ export default (state = initialState, action) => {
                 ...state,
                 user: {_id: null, token: null, username: null},
                 loading: false,
-                error: "sorry, we could not authenticate you"
+                error: action.message
             }
         default:
             return state;
