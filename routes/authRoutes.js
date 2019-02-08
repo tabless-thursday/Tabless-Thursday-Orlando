@@ -27,7 +27,7 @@ module.exports = app => {
             const user = await User.find({username: req.body.username});
             if (user.length > 0) {
                 res.status(200).json({message: "Username is taken."})
-            }
+            } else {
             bcrypt.hash(req.body.password, 10).then(hash => {
                     const createdUser = new User({
                         _id: new mongoose.Types.ObjectId(),
@@ -42,6 +42,8 @@ module.exports = app => {
                     expiresIn: '2hr'})
                     res.status(200).json({expiresIn: 120, token: token, username: user.username, userId: user._id })
                 })
+
+            }
             } catch(err) {
             console.log(err)
         }

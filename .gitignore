@@ -5,4 +5,5 @@ package-lock.json
 .DS_Store
 nodemon.json
 /build
+build
 firebase-debug.log
