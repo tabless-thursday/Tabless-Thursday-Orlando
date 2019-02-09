@@ -25,9 +25,13 @@ module.exports = app => {
     app.post('/auth/signup', async (req,res,next) => {
         try {
             const user = await User.find({username: req.body.username});
+            const userEmail = await User.find({email: req.body.email});
             if (user.length > 0) {
                 res.status(200).json({message: "Username is taken."})
-            } else {
+            } 
+            if (userEmail.length > 0) {
+                res.status(200).json({message: "Email is associated with account."})
+            }else {
             bcrypt.hash(req.body.password, 10).then(hash => {
                     const createdUser = new User({
                         _id: new mongoose.Types.ObjectId(),
