@@ -24,11 +24,11 @@ const FooterLinks = (props) => {
         <div className="Contact">
             <h3>CONTACT</h3>
             <p>supports@tabless.thrusday</p>
-            <div>
-                <span>facebook</span>
-                <span>twitter</span>
-                <span>github</span>
-                <span>youtube</span>
+            <div className="Footer__IconsHolder">
+                <span><i className="fab fa-facebook-square"></i></span>
+                <span><i className="fab fa-twitter-square"></i></span>
+                <span><i className="fab fa-github-square"></i></span>
+                <span><i className="fab fa-youtube-square"></i></span>
             </div>
         </div>
     </div>

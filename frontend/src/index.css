@@ -63,10 +63,10 @@ body {
       font-size: 62.5%;
   }
   
-  p, a {
+  p, a, input, textarea, label {
     font-family: 'Rubik', sans-serif;
   }
-  h1, h2, h3, h4, h5, h6 {
+  h1, h2, h3, h4, h5, h6, button {
     font-family: 'Bitter', serif;
   }
   

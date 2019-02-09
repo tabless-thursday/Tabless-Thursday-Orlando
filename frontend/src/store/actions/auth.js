@@ -13,57 +13,74 @@ const authSuccess = (authData) => {
         authData: authData
     }
 }
-const authFail = () => {
+const authFail = (message) => {
     return {
-        type: authTypes.AUTH_FAIL
+        type: authTypes.AUTH_FAIL,
+        message: message || "sorry, we could not authenticate you"
     }
 }
-export const authStart = (email, password, phone, isSignup) => dispatch => {
+export const executeAuth = (authData, isSignup) => dispatch => {
     dispatch(authStarting())
-    const authData = { // maybe move to /containers/auth.js
-        email: email,
-        password: password,
-        phone: phone,
-    };
-    let url = isSignup ? 'api/signup' : 'api/login';
+    let url = isSignup ? 'auth/signup' : 'auth/login';
     axios.post(`/${url}`, authData).then(res => {
-        const expirationDate = new Date(new Date().getTime() + res.data.expiresIn * 1000)
+        if (!res.data.token && isSignup) {
+            return dispatch(authFail(res.data.message));
+        }
+        if (!res.data.token) {
+            return dispatch(authFail());
+        }
+        const expirationDate = new Date(new Date().getTime() + res.data.expiresIn * 60000)
+        let nextGreet = localStorage.getItem('nextGreeting');
+        let shouldGreet = false;
+        if (!nextGreet) {
+            nextGreet = new Date(new Date().getTime() + 60000 * 60 * 24);
+            localStorage.setItem('nextGreeting', nextGreet)
+            shouldGreet = true;
+        } else if (new Date(nextGreet) <= new Date()) {
+            nextGreet = new Date(new Date().getTime() + 60000 * 60 * 24);
+            localStorage.setItem('nextGreeting', nextGreet)
+            shouldGreet = true;
+        }
         localStorage.setItem('token', res.data.token)
         localStorage.setItem('expirationDate', expirationDate)
-        localStorage.setItem('userId', res.data._id)        
+        localStorage.setItem('userId', res.data.userId)
+        localStorage.setItem('username', res.data.username);     
+        res.data.greet = shouldGreet;   
         dispatch(authSuccess(res.data))
     }).catch(err => {
         console.log(err)
         dispatch(authFail())
     })
 }
-// LOGIN OUT LOGIC
-export const authLogout = () => {
+// LOGOUT LOGIC
+export const logout = () => {
     localStorage.removeItem('token');
-	localStorage.removeItem('expirationDate');
+    localStorage.removeItem('expirationDate');
+    localStorage.removeItem('username');
 	localStorage.removeItem('userId');
 	return {
 		type: authTypes.AUTH_LOGOUT
 	}
 }
-// LOGIN IN THREW TOKEN STORED IN LOCALSTORAGE ON APP LOAD
+// LOGIN THROUGH TOKEN STORED IN LOCALSTORAGE ON APP LOAD
 const checkAuthTimeout = (expirationDate) => dispatch => {
-	setTimeout(() => {dispatch(authLogout())}, (expirationDate)*1000);
+	setTimeout(() => {dispatch(logout())}, (expirationDate)*1000);
 }
 
 export const checkAuth = () => dispatch => {
     const token = localStorage.getItem('token');
     if (!token) {
-        dispatch(authLogout())
+        dispatch(logout())
     } else {
         const expirationDate = new Date(localStorage.getItem('expirationDate'));
         if (expirationDate <= new Date()) {
-            dispatch(authLogout());
+            dispatch(logout());
         } else {
             const userId = localStorage.getItem('userId');
-            const authData = {_id: userId, token: token, expirationDate: expirationDate}
+            const username = localStorage.getItem('username')
+            const authData = {userId: userId, token: token, username: username}
             dispatch(authSuccess(authData))
-            dispatch(checkAuthTimeout((expirationDate.getTime() - new Date.getTime())/1000))
+            dispatch(checkAuthTimeout((expirationDate.getTime() - new Date().getTime())/1000))
         }
     }
 }

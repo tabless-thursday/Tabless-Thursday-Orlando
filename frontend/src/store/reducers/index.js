@@ -1,19 +1,9 @@
 import { combineReducers } from 'redux';
 import authReducer from './auth';
+import tabsReducer from './tabs';
 
-const initialState = {
-
-}
-
-const reducer = (state = initialState, action) => {
-    switch (action.type) {
-
-        default:
-            return state;
-    }
-}
 
 export default combineReducers({
-    reducer,
-    auth: authReducer
+    auth: authReducer,
+    tabs: tabsReducer
 })

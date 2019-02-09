@@ -21,7 +21,7 @@ class Layout extends Component {
         }
         return (
             <React.Fragment>
-                <LayoutContext.Provider value={{opened:this.state.showSideDrawer, toggle: this.toggleHandler, isAuth: this.props.isAuth}}>
+                <LayoutContext.Provider value={{opened:this.state.showSideDrawer, toggle: this.toggleHandler, authed: this.props.showProtectedLinks}}>
                     <Navbar logoShow={this.state.showSideDrawer}/>
                     <SideDrawer/>
                 </LayoutContext.Provider>
